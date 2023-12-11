@@ -12,5 +12,5 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: build plasm2_asm
+    - name: build hltv ra
       run: make
