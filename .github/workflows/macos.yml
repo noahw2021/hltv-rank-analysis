@@ -12,15 +12,5 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: get sdl2
-      run: |
-        brew install SDL2
-    - uses: actions/checkout@v2
     - name: build plasm2_asm
-      run: |
-        cd plasm2_asm
-        make
-    - name: build plasm2_emu
-      run: |
-        cd plasm2_emu
-        make -f "makefile_osxintel"
+      run: make
