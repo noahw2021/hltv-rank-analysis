@@ -13,6 +13,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: get curl
-      run: sudo apt-get install libcurl-dev
+      run: sudo apt-get install libcurl4-openssl-dev
     - name: build hltv ra
       run: make
