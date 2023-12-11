@@ -173,8 +173,8 @@
             filePath = "hltva/hltva_generate.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "262"
-            endingLineNumber = "262"
+            startingLineNumber = "270"
+            endingLineNumber = "270"
             landmarkName = "HltvGenerateByUrl(Url)"
             landmarkType = "9">
          </BreakpointContent>
@@ -189,8 +189,8 @@
             filePath = "hltva/hltva_generate.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
             landmarkName = "HltvGenerateByUrl(Url)"
             landmarkType = "9">
          </BreakpointContent>
@@ -205,8 +205,8 @@
             filePath = "hltva/hltva_generate.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
             landmarkName = "HltvGenerateByUrl(Url)"
             landmarkType = "9">
             <Locations>
@@ -240,6 +240,36 @@
                   endingLineNumber = "91"
                   offsetFromSymbolStart = "848">
                </Location>
+               <Location
+                  uuid = "510087D5-16AC-4E39-9FBE-BD8A740F9879 - f8b234b0f96953bf"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "HltvGenerateByUrl"
+                  moduleName = "hltv-rank-analysis"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/noahwooten/Desktop/Source/hltv-rank-analysis/hltva/hltva_generate.c"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "91"
+                  endingLineNumber = "91"
+                  offsetFromSymbolStart = "852">
+               </Location>
+               <Location
+                  uuid = "510087D5-16AC-4E39-9FBE-BD8A740F9879 - f8b234b0f96953f9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "HltvGenerateByUrl"
+                  moduleName = "hltv-rank-analysis"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/noahwooten/Desktop/Source/hltv-rank-analysis/hltva/hltva_generate.c"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "89"
+                  endingLineNumber = "89"
+                  offsetFromSymbolStart = "840">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>
@@ -253,8 +283,8 @@
             filePath = "hltva/hltva_generate.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
             landmarkName = "HltvGenerateByUrl(Url)"
             landmarkType = "9">
             <Locations>
@@ -289,6 +319,38 @@
                   offsetFromSymbolStart = "1324">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "231B2C46-1597-4F92-9F57-C7356BE84A8F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "hltva/hltva_generate.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "186"
+            endingLineNumber = "186"
+            landmarkName = "HltvGenerateByUrl(Url)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "40DD4FAA-0DD3-4BA8-8ECF-C70F21A66397"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "hltva/hltva_generate.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
+            landmarkName = "HltvGenerateByUrl(Url)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

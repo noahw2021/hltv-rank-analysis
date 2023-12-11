@@ -21,7 +21,7 @@
 #include "hltva/hltva.h"
 #include "csv/csv.h"
 
-#define WEEKS_TO_GENERATE 10
+#define WEEKS_TO_GENERATE 450
 
 int main(int argc, char** argv) {
     NetInit();
@@ -63,6 +63,7 @@ int main(int argc, char** argv) {
         WORD32 PlayerEntry = CsvCreateEntry(Players, i + 1);
         PSTATS_PLAYER ThisPlayer = &RankStats->Players[i];
         char* StringBuf = malloc(128);
+        int RemovedTeams = 0;
         
         CsvEntryAddMember(Players, PlayerEntry, ThisPlayer->PlayerName);
                 
@@ -82,7 +83,6 @@ int main(int argc, char** argv) {
             WEEKS_TO_GENERATE;
         ThisPlayer->AveragePoints[1] = ThisPlayer->TotalPoints /
             ThisPlayer->WeeksPresent;
-        
         
         sprintf(StringBuf, "%lu", ThisPlayer->AveragePoints[0]);
         CsvEntryAddMember(Players, PlayerEntry, StringBuf);
@@ -108,7 +108,7 @@ int main(int argc, char** argv) {
         CsvEntryAddMember(Players, PlayerEntry, StringBuf);
         *StringBuf = 0x00;
         
-        sprintf(StringBuf, "%lu", ThisPlayer->TeamCount);
+        sprintf(StringBuf, "%lu", ThisPlayer->TeamCount - RemovedTeams);
         CsvEntryAddMember(Players, PlayerEntry, StringBuf);
         *StringBuf = 0x00;
         
@@ -116,6 +116,38 @@ int main(int argc, char** argv) {
     }
     
     CsvGenerate(Players);
+    
+    WORD32 Teams = CsvCreateTable("teams.csv");
+    WORD32 TeamHeader = CsvCreateEntry(Teams, 1);
+    CsvEntryAddMember(Teams, TeamHeader, "Team Name");
+    CsvEntryAddMember(Teams, TeamHeader, "Peak Rank");
+    CsvEntryAddMember(Teams, TeamHeader, "Total Points");
+    CsvEntryAddMember(Teams, TeamHeader, "Time at Peak");
+    CsvEntryAddMember(Teams, TeamHeader, "Player Count");
+    for (int i = 0; i < RankStats->TeamCount; i++) {
+        PSTATS_TEAM ThisTeam = &RankStats->Teams[i];
+        WORD32 ThisLine = CsvCreateEntry(Teams, i + 1);
+        char* Buffer = malloc(128);
+        
+        sprintf(Buffer, "%s", ThisTeam->TeamName);
+        CsvEntryAddMember(Teams, ThisLine, Buffer);
+        
+        sprintf(Buffer, "%lu", ThisTeam->PeakRank);
+        CsvEntryAddMember(Teams, ThisLine, Buffer);
+        
+        sprintf(Buffer, "%lu", ThisTeam->TotalPoints);
+        CsvEntryAddMember(Teams, ThisLine, Buffer);
+        
+        sprintf(Buffer, "%lu", ThisTeam->TimeAtPeak);
+        CsvEntryAddMember(Teams, ThisLine, Buffer);
+        
+        sprintf(Buffer, "%lu", ThisTeam->PlayerCount);
+        CsvEntryAddMember(Teams, ThisLine, Buffer);
+        
+        free(Buffer);
+    }
+    
+    CsvGenerate(Teams);
     
     NetShutdown();
     HltvShutdown();

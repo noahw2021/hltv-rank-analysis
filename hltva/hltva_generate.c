@@ -36,11 +36,9 @@ void HltvGenerateByUrl(char* Url) {
     PHLTV_RANK_PAGE NewPage = &RankStats->RankPages
         [RankStats->RankPageCount++];
     
-    NewPage->HtmlData = malloc(PageBufferSize);
+    NewPage->HtmlData = malloc(PageBufferSize + 3072000);
     strcpy(NewPage->HtmlData, PageBuffer);
     free(PageBuffer);
-    
-    printf("Starting HLTV ranking page.\n");
     
     char* ThisHeader = NewPage->HtmlData;
     int Escape = 0;
@@ -81,7 +79,7 @@ void HltvGenerateByUrl(char* Url) {
         char TeamName[128];
         while (ThisHeader[i] != '<') {
             TeamName[i] = ThisHeader[i];
-            if (i == 127)
+            if (i > 100)
                 break;
             i++;
         }
@@ -100,13 +98,16 @@ void HltvGenerateByUrl(char* Url) {
         }
         int PointsInt = atoi(Points);
         
-        printf("#%i: %s (%i points)\n", ThisRanking, TeamName, PointsInt);
+        //printf("#%i: %s (%i points)\n", ThisRanking, TeamName, PointsInt);
         
         PSTATS_TEAM ResolvedTeam = NULL;
         for (int i = 0; i < RankStats->TeamCount; i++) {
             PSTATS_TEAM ThisTeam = &RankStats->Teams[i];
             
-            if (strstr(ThisTeam->TeamName, TeamName)) {
+            if (ThisTeam->TeamName[0] == TeamName[0] &&
+                ThisTeam->TeamName[1] == TeamName[1] &&
+                strlen(ThisTeam->TeamName) == strlen(TeamName)
+            ) {
                 ResolvedTeam = ThisTeam;
                 break;
             }
@@ -119,7 +120,7 @@ void HltvGenerateByUrl(char* Url) {
                 RankStats->Teams = realloc(RankStats->Teams,
                     (sizeof(STATS_TEAM) * (RankStats->TeamCount + 1)));
             
-            printf("Creating team: %s", TeamName);
+            printf("Creating team: %s\n", TeamName);
             
             ResolvedTeam = &RankStats->Teams[RankStats->TeamCount++];
             memset(ResolvedTeam, 0, sizeof(STATS_TEAM));
@@ -146,6 +147,8 @@ void HltvGenerateByUrl(char* Url) {
                 NextTeam += strlen("\"ranking-header\"");
             if (NextTeam && NextPlayer > NextTeam)
                 break;
+            if (!NextTeam || NextTeam[0] == '\20' || !NextTeam[0])
+                break;
             
             ThisHeader = strstr(ThisHeader, "<div class=\"rankingNicknames\"><span>");
             ThisHeader += strlen("<div class=\"rankingNicknames\"><span>");
@@ -155,7 +158,7 @@ void HltvGenerateByUrl(char* Url) {
             if (strstr(Player, "</span>"))
                 strstr(Player, "</span>")[0] = 0x00;
             
-            printf("\t%s\n", Player);
+            //printf("\t%s\n", Player);
             
             PSTATS_PLAYER ResolvedPlayer = NULL;
             for (int i = 0; i < RankStats->PlayerCount; i++) {
@@ -180,7 +183,7 @@ void HltvGenerateByUrl(char* Url) {
                     [RankStats->PlayerCount++];
                 memset(ResolvedPlayer, 0, sizeof(STATS_PLAYER));
                 ResolvedPlayer->PeakRank = 31;
-                ResolvedPlayer->LongestTeam = ResolvedTeam;
+                ResolvedPlayer->LongestTeam = NULL;
                 
                 strncpy(ResolvedPlayer->PlayerName, Player, 128);
             }
@@ -190,7 +193,10 @@ void HltvGenerateByUrl(char* Url) {
             
             BYTE TeamNeedsAdding = 1;
             for (int i = 0; i < ResolvedPlayer->TeamCount; i++) {
-                if (ResolvedPlayer->Teams[i] == ResolvedTeam) {
+                if (ResolvedPlayer->Teams[i]->TeamName[0] == TeamName[0] &&
+                    ResolvedPlayer->Teams[i]->TeamName[1] == TeamName[1] &&
+                     strlen(ResolvedPlayer->Teams[i]->TeamName) == strlen(TeamName)
+                ) {
                     TeamNeedsAdding = 0;
                     break;
                 }
@@ -207,6 +213,8 @@ void HltvGenerateByUrl(char* Url) {
                 ResolvedPlayer->Teams[ResolvedPlayer->TeamCount++] =
                     ResolvedTeam;
                 ResolvedPlayer->TimeInCurrentTeam = 1;
+                if (!ResolvedPlayer->LongestTeam)
+                    ResolvedPlayer->LongestTeam = ResolvedTeam;
             }
             
             BYTE PlayersNeedsAdding = 1;
