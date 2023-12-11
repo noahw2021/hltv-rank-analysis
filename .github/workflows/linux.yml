@@ -12,5 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: get curl
+      run: sudo apt-get install libcurl-dev
     - name: build hltv ra
       run: make
