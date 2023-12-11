@@ -43,13 +43,27 @@ void HltvGenerateByUrl(char* Url) {
     printf("Starting HLTV ranking page.\n");
     
     char* ThisHeader = NewPage->HtmlData;
-
+    int Escape = 0;
+    
     do {
         ThisHeader = strstr(ThisHeader,
             "\"ranking-header\"") + strlen("\"ranking-header\"");
+        if (!ThisHeader) {
+            Escape++;
+            if (Escape > 15)
+                break;
+            continue;
+        }
         
         char RankingNumber[3] = "00";
         ThisHeader += strlen("><span class=\"position\">#");
+        
+        if (ThisHeader < 0x100) {
+            Escape++;
+            if (Escape > 15)
+                break;
+            continue;
+        }
         
         memcpy(RankingNumber, ThisHeader, 2);
         RankingNumber[2] = 0x00;
@@ -60,28 +74,21 @@ void HltvGenerateByUrl(char* Url) {
         
         int ThisRanking = atoi(RankingNumber);
         
-        if (ThisRanking == 1) {
-            ThisHeader = strstr(ThisHeader,
-                "<div class=\"teamLine sectionTeamPlayers "
-                "teamLineExpanded\"><span class=\"name\">");
-            
-            ThisHeader += strlen("<div class=\"teamLine sectionTeamPlayers "
-                "teamLineExpanded\"><span class=\"name\">");
-        } else {
-            ThisHeader = strstr(ThisHeader,
-                "<div class=\"teamLine sectionTeamPlayers "
-                "\"><span class=\"name\">");
-            
-            ThisHeader += strlen("<div class=\"teamLine sectionTeamPlayers "
-                "\"><span class=\"name\">");
-        }
+        ThisHeader = strstr(ThisHeader, "<span class=\"name\">");
+        ThisHeader += strlen("<span class=\"name\">");
+        
         int i = 0;
         char TeamName[128];
         while (ThisHeader[i] != '<') {
             TeamName[i] = ThisHeader[i];
+            if (i == 127)
+                break;
             i++;
         }
         TeamName[i] = 0x00;
+        
+        if (TeamName[0] == 0x00)
+            printf("[ERROR]!\n");
         
         i = 0;
         char Points[5] = {0, 0, 0, 0, 0};
@@ -99,7 +106,7 @@ void HltvGenerateByUrl(char* Url) {
         for (int i = 0; i < RankStats->TeamCount; i++) {
             PSTATS_TEAM ThisTeam = &RankStats->Teams[i];
             
-            if (!strcmp(ThisTeam->TeamName, TeamName)) {
+            if (strstr(ThisTeam->TeamName, TeamName)) {
                 ResolvedTeam = ThisTeam;
                 break;
             }
@@ -112,9 +119,12 @@ void HltvGenerateByUrl(char* Url) {
                 RankStats->Teams = realloc(RankStats->Teams,
                     (sizeof(STATS_TEAM) * (RankStats->TeamCount + 1)));
             
+            printf("Creating team: %s", TeamName);
+            
             ResolvedTeam = &RankStats->Teams[RankStats->TeamCount++];
             memset(ResolvedTeam, 0, sizeof(STATS_TEAM));
             ResolvedTeam->PeakRank = 31;
+            strcpy(ResolvedTeam->TeamName, TeamName);
         }
         
         ResolvedTeam->TotalPoints += PointsInt;
@@ -170,6 +180,7 @@ void HltvGenerateByUrl(char* Url) {
                     [RankStats->PlayerCount++];
                 memset(ResolvedPlayer, 0, sizeof(STATS_PLAYER));
                 ResolvedPlayer->PeakRank = 31;
+                ResolvedPlayer->LongestTeam = ResolvedTeam;
                 
                 strncpy(ResolvedPlayer->PlayerName, Player, 128);
             }
@@ -195,6 +206,7 @@ void HltvGenerateByUrl(char* Url) {
                 
                 ResolvedPlayer->Teams[ResolvedPlayer->TeamCount++] =
                     ResolvedTeam;
+                ResolvedPlayer->TimeInCurrentTeam = 1;
             }
             
             BYTE PlayersNeedsAdding = 1;
@@ -228,10 +240,16 @@ void HltvGenerateByUrl(char* Url) {
             ResolvedPlayer->CurrentTeam = ResolvedTeam;
             
             if (ResolvedPlayer->TimeInCurrentTeam >=
-                ResolvedPlayer->TimeInLongestTeam
+                ResolvedPlayer->TimeInLongestTeam &&
+                ResolvedPlayer->LongestTeam != ResolvedPlayer->CurrentTeam
             ) {
                 ResolvedPlayer->LongestTeam = ResolvedTeam;
+                ResolvedPlayer->TimeInLongestTeam =
+                    ResolvedPlayer->TimeInCurrentTeam;
             }
+            
+            if (ResolvedPlayer->LongestTeam == ResolvedPlayer->CurrentTeam)
+                ResolvedPlayer->TimeInLongestTeam = ResolvedPlayer->TimeInCurrentTeam;	
             
             free(Player);
         }
@@ -241,11 +259,12 @@ void HltvGenerateByUrl(char* Url) {
             if (!ThisPlayer)
                 continue;
             
-            ThisPlayer->TotalPoints = PointsInt / PlayerCountInTeam;
+            ThisPlayer->TotalPoints += PointsInt / PlayerCountInTeam;
         }
         
         continue;
-    } while (strstr(ThisHeader, "\"ranking-header\""));
+    } while ((ThisHeader > 0x100) && strstr(ThisHeader, "\"ranking-header\""));
     
+    free(NewPage->HtmlData);
     return;
 }

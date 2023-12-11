@@ -13,7 +13,7 @@
 typedef struct _STATS_PLAYER *PSTATS_PLAYER;
 
 typedef struct _STATS_TEAM {
-    char TeamName[128];
+    char TeamName[768];
     
     WORD32 TotalPoints;
     WORD32 PeakRank;

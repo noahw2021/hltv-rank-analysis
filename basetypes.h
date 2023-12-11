@@ -13,7 +13,10 @@ typedef unsigned long WORD32, *PWORD32;
 typedef unsigned short WORD16, *PWORD16;
 typedef unsigned char BYTE, *PBYTE;
 
+#define WTDS_STYLE_HLTV 0x01
+#define WTDS_STYLE_XCEL 0x02
 
 void WeekToDateString(int WeekNum, char* DateStringOut, int BfrSize);
+void WeekToDateStringEx(int WeekNum, char* DateStringOut, int BfrSize, int Style);
 
 #endif /* basetypes_h */

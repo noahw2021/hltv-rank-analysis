@@ -14,6 +14,9 @@
 		8C4E224E2B0D6B94006D70ED /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C4E224D2B0D6B94006D70ED /* utils.c */; };
 		8C4E22522B0D773F006D70ED /* hltva_init.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C4E22512B0D773F006D70ED /* hltva_init.c */; };
 		8C4E22542B0D7799006D70ED /* hltva_generate.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C4E22532B0D7799006D70ED /* hltva_generate.c */; };
+		8C4E22582B0E8D51006D70ED /* csv_init.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C4E22572B0E8D51006D70ED /* csv_init.c */; };
+		8C4E225A2B0E8E2F006D70ED /* csv_manip.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C4E22592B0E8E2F006D70ED /* csv_manip.c */; };
+		8C4E225C2B0E915F006D70ED /* csv_generate.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C4E225B2B0E915F006D70ED /* csv_generate.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -40,6 +43,10 @@
 		8C4E22502B0D7581006D70ED /* hltva.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = hltva.h; sourceTree = "<group>"; };
 		8C4E22512B0D773F006D70ED /* hltva_init.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = hltva_init.c; sourceTree = "<group>"; };
 		8C4E22532B0D7799006D70ED /* hltva_generate.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = hltva_generate.c; sourceTree = "<group>"; };
+		8C4E22562B0E8177006D70ED /* csv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = csv.h; sourceTree = "<group>"; };
+		8C4E22572B0E8D51006D70ED /* csv_init.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = csv_init.c; sourceTree = "<group>"; };
+		8C4E22592B0E8E2F006D70ED /* csv_manip.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = csv_manip.c; sourceTree = "<group>"; };
+		8C4E225B2B0E915F006D70ED /* csv_generate.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = csv_generate.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,10 +66,10 @@
 			children = (
 				8C4E22552B0E8148006D70ED /* csv */,
 				8C4E224F2B0D757A006D70ED /* hltva */,
-				8C4E224D2B0D6B94006D70ED /* utils.c */,
 				8C4E22462B0D5C7D006D70ED /* netapi */,
 				8C4E22452B0D5C33006D70ED /* basetypes.h */,
 				8C4E22412B0D5BB7006D70ED /* main.c */,
+				8C4E224D2B0D6B94006D70ED /* utils.c */,
 				8C4E22382B0D5BA9006D70ED /* Products */,
 				8C4E224A2B0D6A7F006D70ED /* Frameworks */,
 			);
@@ -107,6 +114,10 @@
 		8C4E22552B0E8148006D70ED /* csv */ = {
 			isa = PBXGroup;
 			children = (
+				8C4E22562B0E8177006D70ED /* csv.h */,
+				8C4E22572B0E8D51006D70ED /* csv_init.c */,
+				8C4E22592B0E8E2F006D70ED /* csv_manip.c */,
+				8C4E225B2B0E915F006D70ED /* csv_generate.c */,
 			);
 			path = csv;
 			sourceTree = "<group>";
@@ -170,10 +181,13 @@
 			files = (
 				8C4E22542B0D7799006D70ED /* hltva_generate.c in Sources */,
 				8C4E22422B0D5BB7006D70ED /* main.c in Sources */,
+				8C4E22582B0E8D51006D70ED /* csv_init.c in Sources */,
 				8C4E224E2B0D6B94006D70ED /* utils.c in Sources */,
+				8C4E225A2B0E8E2F006D70ED /* csv_manip.c in Sources */,
 				8C4E22492B0D5D35006D70ED /* netapi_init.c in Sources */,
 				8C4E22522B0D773F006D70ED /* hltva_init.c in Sources */,
 				8C4E22442B0D5C28006D70ED /* netapi_dl.c in Sources */,
+				8C4E225C2B0E915F006D70ED /* csv_generate.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
