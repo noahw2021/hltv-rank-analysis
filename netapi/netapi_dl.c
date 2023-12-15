@@ -16,8 +16,10 @@ void NetDownload(
     WORD32 BufferSize, WORD32* RequiredBufferSize
 ) {
     FILE* TempFile = tmpfile();
-    if (!TempFile)
+    if (!TempFile) {
         NetCtx->DidSucceed = 0;
+        return;
+    }
     
     curl_easy_setopt(NetCtx->ThisCurlCtx,
         CURLOPT_URL, Url);
